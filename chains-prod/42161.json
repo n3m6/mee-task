@@ -1,6 +1,6 @@
 {
     "name": "Arbitrum One",
-    "rpc": "<YOUR RPC URL (debug_traceCall enabled)>",
+    "rpc": "http://anvil-arbitrum:8546",
     "isTestChain": false,
     "chainId": "42161",
     "type": "arbitrum",

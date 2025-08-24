@@ -1,6 +1,6 @@
 {
     "name": "Ethereum",
-    "rpc": "YOUR RPC URL (debug_traceCall enabled). ETH rpc is mandatory because price feeds are read from mainnet. If used for price feeds only - can be pulibc rpc.",
+    "rpc": "http://anvil-mainnet:8545",
     "isTestChain": false,
     "chainId": "1",
     "type": "evm",
