@@ -15,5 +15,5 @@ DOCS_URL=https://documenter.getpostman.com/view/33713944/2sAYBd99Ec
 ```bash
 docker compose --env-file .env up
 ```
-3. Wait 1 minute for health check to pass and check `http://localhost:3000/v3/info` to see if the server is running
+3. **Wait 1 minute for health check to pass** and check `http://localhost:3000/v3/info` to see if the server is running
 4. Run `pnpm install` to install dependencies
