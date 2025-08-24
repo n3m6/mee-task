@@ -143,3 +143,5 @@ vite.config.ts.timestamp-*
 keystore/
 logs/
 redis-data/
+
+.idea/
