@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm exec ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,12 @@
   "homepage": "https://github.com/n3m6/mee-task#readme",
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
+    "@types/node": "24.3.0",
+    "ts-node": "10.9.2",
     "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@biconomy/abstractjs": "1.1.1",
+    "viem": "2.34.0"
   }
 }
