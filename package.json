@@ -1,0 +1,22 @@
+{
+  "name": "mee-task",
+  "version": "1.0.0",
+  "description": "MEE challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n3m6/mee-task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/n3m6/mee-task/issues"
+  },
+  "homepage": "https://github.com/n3m6/mee-task#readme",
+  "packageManager": "pnpm@10.11.0"
+}
