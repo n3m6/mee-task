@@ -13,30 +13,13 @@ services:
       - "8545:8545"
     networks:
       - rpc-net
-  anvil-arbitrum:
-    image: anvil
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    environment:
-      - CHAIN_ID=42161
-      - FORK_URL=${ARBITRUM_RPC_NODE}
-      - PORT=8546
-      - HOST=0.0.0.0
-      - STEPS_TRACING=true
-    ports:
-      - "8546:8546"
-    depends_on:
-      - anvil-mainnet
-    networks:
-      - rpc-net
   redis:
     image: redis:8.2.1-alpine
     restart: always
     command: redis-server --dir /data --save 60 1 --appendonly yes --loglevel warning
     depends_on:
       - anvil-mainnet
-      - anvil-arbitrum
+    #      - anvil-arbitrum
     volumes:
       - ./redis-data:/data
     networks:
@@ -55,11 +38,9 @@ services:
     links:
       - redis
       - anvil-mainnet
-      - anvil-arbitrum
     depends_on:
       - redis
       - anvil-mainnet
-      - anvil-arbitrum
     volumes:
       - ./logs:/usr/src/app/logs
       - ./keystore:/usr/src/app/keystore
