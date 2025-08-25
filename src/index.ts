@@ -46,38 +46,12 @@ async function main() {
   console.log(`Orchestrator address: ${orchestrator.addressOn(1)}`);
   const nexusAccountAddress = orchestrator.addressOn(mainnet.id) ?? '0xff';
 
-  // approve USDC for transfer
-  await eoaAccount.writeContract({
-    address: USDC_ADDRESS_MAINNET,
-    abi: erc20Abi,
-    functionName: 'approve',
-    args: [nexusAccountAddress, 6_000_000_000n] // Approve the transfer amount
-  });
-
-  // Verify the approval
-  const allowance = await mainnetPublicClient.readContract({
-    address: USDC_ADDRESS_MAINNET,
-    abi: erc20Abi,
-    functionName: 'allowance',
-    args: [eoaAccount.account.address, nexusAccountAddress]
-  });
-  console.log(`Allowance: ${allowance}`);
-
-
   const meeClient = await createMeeClient({
     account: orchestrator,
     url: LOCAL_MEE_NODE,
   });
   console.log(`MEE Client created with account: ${meeClient.account.addressOn(1)}`);
 
-
-  await eoaAccount.writeContract({
-    address: USDC_ADDRESS_MAINNET,
-    abi: erc20Abi,
-    functionName: 'transfer',
-    args: [nexusAccountAddress, 5_000_000_000n]
-  });
-  console.log(`Transferred 5000 USDC to Nexus account: ${nexusAccountAddress}`);
 
   // Build the first instruction (approve AAVE to spend USDC from Nexus)
   const approveInstruction = await orchestrator.buildComposable({
@@ -114,38 +88,35 @@ async function main() {
 //       functionName: 'transfer',
 //       args: [MAINNET_WHALE_ADDRESS, 5_000_000_000n]
 //     }
-//   }, supplyInstruction); // Pass the first instruction as currentInstructions
+//   }, supplyInstruction);
 
   console.log(`Instructions built:`);
   console.log(approveInstruction);
 
-
-// The trigger configuration tells the fusion system to transfer USDC from EOA to Nexus
   const fusionQuote = await meeClient.getFusionQuote({
     instructions: [approveInstruction],
     delegate: false,
     trigger: {
       chainId: mainnet.id,
       tokenAddress: USDC_ADDRESS_MAINNET,
-      amount: 5_000_000_000n, // This triggers the EOA -> Nexus transfer
+      amount: 5_000_000_000n,
       gasLimit: 500000n,
     },
-    //sponsorship: true,
     feeToken: {
       address: USDC_ADDRESS_MAINNET,
       chainId: mainnet.id,
     }
-    // feeToken: {
-    //   address: USDC_ADDRESS_MAINNET,
-    //   chainId: mainnet.id
-    // }
   });
   console.log(`Fusion quote: `);
   console.log(fusionQuote);
 
+  const signedQuote = await meeClient.signFusionQuote({fusionQuote});
+  console.log(`Signed fusion quote: `);
+  console.log(signedQuote);
+
 // Execute the quote and get back a transaction hash
 // This sends the transaction to the network
-  const {hash} = await meeClient.executeFusionQuote({fusionQuote})
+  const {hash} = await meeClient.executeSignedQuote({signedQuote})
   console.log(`Transaction hash: ${hash}`);
 
   await meeClient.waitForSupertransactionReceipt({hash});
