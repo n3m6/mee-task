@@ -8,6 +8,7 @@ services:
       - CHAIN_ID=1
       - FORK_URL=${MAINNET_RPC_NODE}
       - HOST=0.0.0.0
+      - STEPS_TRACING=true
     ports:
       - "8545:8545"
     networks:
@@ -22,6 +23,7 @@ services:
       - FORK_URL=${ARBITRUM_RPC_NODE}
       - PORT=8546
       - HOST=0.0.0.0
+      - STEPS_TRACING=true
     ports:
       - "8546:8546"
     depends_on:
